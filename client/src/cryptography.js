@@ -39,5 +39,38 @@ export function getAddress(privateKey) {
 
 export function getPublicKey(privateKey) {
     const publicKey = secp256k1.getPublicKey(privateKey)
-    return(toHex(publicKey))
+    return(uint8ArrayToHexString(publicKey))
 }
+
+
+function uint8ArrayToHexString(uint8Array) {
+    var hexString = '';
+  
+    for (var i = 0; i < uint8Array.length; i++) {
+      var hex = uint8Array[i].toString(16);
+      if (hex.length === 1) {
+        hex = '0' + hex; // 确保每个字节都有两位
+      }
+      hexString += hex;
+    }
+  
+    return hexString;
+  }
+  
+  function hexStringToUint8Array(hexString) {
+    // 确保字符串长度为偶数
+    if (hexString.length % 2 !== 0) {
+      hexString = '0' + hexString;
+    }
+  
+    var uint8Array = new Uint8Array(hexString.length / 2);
+  
+    for (var i = 0; i < hexString.length; i += 2) {
+      var byte = parseInt(hexString.substr(i, 2), 16);
+      uint8Array[i / 2] = byte;
+    }
+  
+    return uint8Array;
+  }
+
+  

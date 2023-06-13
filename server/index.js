@@ -33,6 +33,14 @@ app.post("/send", (req, res) => {
     console.log(`Invalid signature`)
     return
   }
+
+  if(!generate.verifySenderAddress(tx.publicKey,tx.msg.sender)){
+    console.log(`Invalid sender address`)
+    return
+  }else{
+    console.log(`Sender address verification successful.`)
+  }
+
   let sender = tx.msg.sender
   let recipient = tx.msg.recipient 
   let amount = tx.msg.amount
