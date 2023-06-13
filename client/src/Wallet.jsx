@@ -34,7 +34,7 @@ function getAddress(privateKey) {
 }
 
 
-function Wallet({ address, setAddress, balance, setBalance ,privateKey,setPrivateKey,error,setError}) {
+function Wallet({ address, setAddress, balance, setBalance ,privateKey,setPrivateKey,error,setError,sendAmount,recipient}) {
   async function onChange(evt) {
     const privateKey = evt.target.value;
     setPrivateKey(privateKey);
@@ -58,6 +58,7 @@ function Wallet({ address, setAddress, balance, setBalance ,privateKey,setPrivat
       setBalance(0);
     }
   }
+
 
   return (
     <div className="container wallet">

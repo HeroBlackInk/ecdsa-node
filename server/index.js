@@ -3,8 +3,12 @@ const app = express();
 const cors = require("cors");
 const port = 3042;
 
+
+
+const generate = require("./scripts/generate")
+
 app.use(cors());
-app.use(express.json());
+app.use(express.json(strict = false));
 
 const balances = {
   "0xf368223f8815fcce0469af27413a7c9e8a61b7fa": 100,
@@ -19,8 +23,19 @@ app.get("/balance/:address", (req, res) => {
 });
 
 app.post("/send", (req, res) => {
-  const { sender, recipient, amount } = req.body;
+  const { tx} = req.body;
+  console.log(tx.msg)
+  console.log(tx.signature)
+  console.log(tx.signature["recovery"])
+  console.log(tx.publicKey)
 
+  if(!generate.verify(tx.signature,tx.msg,tx.publicKey)){
+    console.log(`Invalid signature`)
+    return
+  }
+  let sender = tx.msg.sender
+  let recipient = tx.msg.recipient 
+  let amount = tx.msg.amount
   setInitialBalance(sender);
   setInitialBalance(recipient);
 
